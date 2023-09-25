@@ -9,6 +9,7 @@ import { areIntervalsOverlapping } from 'date-fns';
 import { allAvailableDatasetsLayers } from '.';
 
 import { utcString2userTzDate } from '$utils/date';
+import { TimeseriesDataResult } from '../results/timeseries-data';
 
 interface UseStacSearchProps {
   start?: Date;
@@ -47,11 +48,28 @@ export function useStacCollectionSearch({
     }
   }, [result.data, aoi, start, end]);
 
+  const selectableDatasetLayersWithNumberOfItems = selectableDatasetLayers.map(
+    (l) => {
+      const numberOfItems = getNumberOfItemsWithinTimeRange(
+        start,
+        end,
+        l.collection
+      );
+      return { ...l, numberOfItems };
+    }
+  );
+
+  console.log(selectableDatasetLayersWithNumberOfItems);
+
   return {
     selectableDatasetLayers: selectableDatasetLayers,
     stacSearchStatus: result.status,
     readyToLoadDatasets
   };
+}
+
+function getNumberOfItemsWithinTimeRange(start, end, collection) {
+  const isPeriodic = collection;
 }
 
 function getInTemporalAndSpatialExtent(collectionData, aoi, timeRange) {
@@ -95,7 +113,21 @@ function getInTemporalAndSpatialExtent(collectionData, aoi, timeRange) {
     }
   }, []);
 
-  return allAvailableDatasetsLayers.filter((l) =>
+  const filteredDatasets = allAvailableDatasetsLayers.filter((l) =>
     matchingCollectionIds.includes(l.stacCol)
   );
+
+  const filteredDataetsWithCollections: TimeseriesDataResult[] =
+    filteredDatasets.map((l) => {
+      const collection = collectionData.find((c) => c.id === l.stacCol);
+      return {
+        ...l,
+        isPeriodic: collection['dashboard:is_periodic'],
+        timeDensity: collection['dashboard:time_density'],
+        domain: collection.extent.temporal.interval[0],
+        timeseries: collection.summaries.datetime
+      };
+    });
+
+  return filteredDataetsWithCollections;
 }
