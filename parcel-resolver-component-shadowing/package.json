@@ -1,0 +1,12 @@
+{
+  "name": "parcel-resolver-component-shadowing",
+  "version": "1.0.0",
+  "description": "Parcel component shadow",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "engines": {
+    "parcel": "2.x"
+  },
+  "peerDependencies": {
+  }
+}

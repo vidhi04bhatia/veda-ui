@@ -16,5 +16,6 @@ module.exports = {
       one: 'Story',
       other: 'Stories'
     }
-  }
+  },
+  shadowFolder: './shadow/'
 };
