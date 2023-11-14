@@ -84,6 +84,7 @@ export function MapLayerRasterTimeseries(props: MapLayerRasterTimeseriesProps) {
   const { updateStyle } = useMapStyle();
 
   const minZoom = zoomExtent?.[0] ?? 0;
+  const maxZoom = zoomExtent?.[1] ?? 20;
   const generatorId = 'raster-timeseries' + idSuffix;
 
   // Status tracking.
@@ -373,7 +374,10 @@ export function MapLayerRasterTimeseries(props: MapLayerRasterTimeseriesProps) {
             // Ignore errors.
           }
 
-          const wmtsBaseUrl = mosaicUrl.replace('tilejson.json', 'WMTSCapabilities.xml');
+          const wmtsBaseUrl = mosaicUrl.replace(
+            'tilejson.json',
+            'WMTSCapabilities.xml'
+          );
 
           const mosaicSource: RasterSource = {
             type: 'raster',
@@ -394,6 +398,7 @@ export function MapLayerRasterTimeseries(props: MapLayerRasterTimeseriesProps) {
               }
             },
             minzoom: minZoom,
+            maxzoom: maxZoom,
             metadata: {
               id,
               layerOrderPosition: 'raster',
