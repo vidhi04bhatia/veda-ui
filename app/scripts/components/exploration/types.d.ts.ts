@@ -85,10 +85,12 @@ export interface ParentDatset {
   name: string;
 }
 export interface EnhancedDatasetLayer extends DatasetLayer {
+  id: string;
   parentDataset: ParentDatset;
 }
 
 export interface TimelineDatasetData extends EnhancedDatasetLayer {
+  id: string;
   isPeriodic: boolean;
   timeDensity: TimeDensity;
   domain: Date[];
