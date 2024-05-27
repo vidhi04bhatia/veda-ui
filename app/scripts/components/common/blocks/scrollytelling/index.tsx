@@ -43,7 +43,7 @@ import { MapLoading } from '$components/common/loading-skeleton';
 import { HintedError } from '$utils/hinted-error';
 import { formatSingleDate } from '$components/common/mapbox/utils';
 import { convertProjectionToMapbox } from '$components/common/mapbox/map-options/utils';
-import { useSlidingStickyHeaderProps } from '$components/common/layout-root';
+import { useSlidingStickyHeaderProps } from '$components/common/layout-root/useSlidingStickyHeaderProps';
 import { HEADER_TRANSITION_DURATION } from '$utils/use-sliding-sticky-header';
 import { Styles } from '$components/common/mapbox/layers/styles';
 import { Basemap } from '$components/common/mapbox/layers/basemap';

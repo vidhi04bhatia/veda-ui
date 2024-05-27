@@ -1,9 +1,11 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { uniqBy } from 'lodash';
 import styled from 'styled-components';
-import { DatasetData } from 'veda';
 import { useNavigate } from 'react-router-dom';
 import { themeVal } from '@devseed-ui/theme-provider';
+import { DatasetData, Taxonomy, TaxonomyItem, DatasetDataWithEnhancedLayers } from '../../../types';
 import prepareDatasets from '../../data-catalog/prepare-datasets';
+import { useSlidingStickyHeaderProps } from '../layout-root/useSlidingStickyHeaderProps';
 import FiltersControl from './filters-control';
 import FilterTag from './filter-tag';
 import {
@@ -11,9 +13,6 @@ import {
   minSearchLength,
   useBrowserControls
 } from '$components/common/browse-controls/use-browse-controls';
-import {
-  useSlidingStickyHeaderProps
-} from '$components/common/layout-root';
 
 import {
   FoldHeader,
@@ -25,15 +24,9 @@ import { CardList } from '$components/common/card/styles';
 import EmptyHub from '$components/common/empty-hub';
 import { DATASETS_PATH, getDatasetPath } from '$utils/routes';
 import TextHighlight from '$components/common/text-highlight';
-import {
-  getAllTaxonomyValues,
-  getTaxonomyByIds,
-  generateTaxonomies,
-} from '$utils/veda-data';
 import { variableBaseType, variableGlsp } from '$styles/variable-utils';
 import { OptionItem } from '$components/common/form/checkable-filter';
 import { usePreviousValue } from '$utils/use-effect-previous';
-import { getAllDatasetsWithEnhancedLayers } from '$components/exploration/data-utils';
 
 /**
  * DATA CATALOG Feature component 
@@ -92,6 +85,65 @@ const EmptyState = styled(EmptyHub)`
 `;
 
 export const sortOptions = [{ id: 'name', name: 'Name' }];
+
+function enhanceDatasetLayers(dataset) {
+  return {
+      ...dataset,
+      layers: dataset.layers.map(layer => ({
+          ...layer,
+          parentDataset: {
+              id: dataset.id,
+              name: dataset.name
+          }
+      }))
+  };
+}
+
+export const getAllDatasetsWithEnhancedLayers = (dataset): DatasetDataWithEnhancedLayers[] => dataset.map(enhanceDatasetLayers);
+
+function getAllTaxonomyValues(
+  data: DatasetData | Taxonomy[]
+) {
+  const list = Array.isArray(data) ? data : data.taxonomy;
+  const allValues = list.map((l) => l.values).flat();
+  return allValues;
+}
+
+export function getTaxonomyByIds(group: string, ids: string | string[], taxonomies: Taxonomy[]) {
+  const groupValues = taxonomies.find((t) => t.name == group)?.values;
+  
+  let taxonomyItems: any[] = [];
+
+  if (ids instanceof Array) {
+    const items = ids.map((id) => groupValues?.filter((value) => value.id == id)[0]);
+    taxonomyItems = items.map((item) => ({...item, ...{taxonomy: group}}));
+  } else {
+    const taxonomy = groupValues?.filter((value) => value.id == ids)[0];
+    /* eslint-disable-next-line fp/no-mutating-methods */
+    if(taxonomy) taxonomyItems.push({...taxonomy, ...{taxonomy: group}});
+  }
+  return taxonomyItems;
+}
+
+export function generateTaxonomies(data: DatasetDataWithEnhancedLayers[] | DatasetData[]): Taxonomy[] {
+  const concat = (arr, v) => (arr || []).concat(v);
+
+  const taxonomyData = {};
+  // for loops are faster than reduces.
+  for (const { taxonomy } of data) {
+    for (const { name, values } of taxonomy) {
+      if (!name || !values?.length) continue;
+      taxonomyData[name] = concat(taxonomyData[name], values);
+    }
+  }
+
+  const taxonomiesUnique = Object.entries(taxonomyData).map(([key, tx]): Taxonomy => ({
+    name: key,
+    // eslint-disable-next-line fp/no-mutating-methods
+    values: uniqBy(tx as TaxonomyItem[], (t) => t.id).sort((a, b) => a.name.localeCompare(b.name)) as TaxonomyItem[]
+  }));
+  return taxonomiesUnique;
+}
 
 export interface CatalogViewProps {
   datasets: DatasetData[];

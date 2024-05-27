@@ -1,6 +1,7 @@
-import { DatasetData } from 'veda';
+import { DatasetData } from '../../types';
 import { optionAll } from '$components/common/browse-controls/use-browse-controls';
-import { TAXONOMY_TOPICS } from '$utils/veda-data';
+
+const TAXONOMY_TOPICS = 'Topics';
 
 const prepareDatasets = (
   data: DatasetData[],

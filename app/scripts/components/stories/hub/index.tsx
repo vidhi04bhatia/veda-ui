@@ -15,10 +15,8 @@ import {
   optionAll,
   useBrowserControls
 } from '$components/common/browse-controls/use-browse-controls';
-import {
-  LayoutProps,
-  useSlidingStickyHeaderProps
-} from '$components/common/layout-root';
+import { LayoutProps } from '$components/common/layout-root';
+import { useSlidingStickyHeaderProps } from '$components/common/layout-root/useSlidingStickyHeaderProps';
 import PageHero from '$components/common/page-hero';
 import {
   Fold,
