@@ -4,7 +4,11 @@
   "reporters": ["...", "@parcel/reporter-bundle-analyzer"],
   "resolvers": ["parcel-resolver-ignore", "parcel-resolver-veda", "@parcel/resolver-glob", "..."],
   "transformers": {
+    "*.{ts,tsx}": ["parcel-transformer-tsc-sourcemaps"],
     "raw:*": ["@parcel/transformer-raw"],
     "*.mdx": ["parcel-transformer-mdx-frontmatter", "parcel-transformer-mdx"]
+  },
+  "optimizers": {
+    "*.{js,mjs,cjs}": ["...", "parcel-optimizer-client"]
   }
 }

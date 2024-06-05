@@ -14,6 +14,8 @@ import CompareImage from './components/common/blocks/images/compare';
 
 import Embed from './components/common/blocks/embed';
 import TProvider from './theme-provider';
+import { DataProvider, useDataStore } from '$data-layer/provider';
+import { PageMainContent } from '$styles/page';
 
 export {
   DataCatalog,
@@ -27,5 +29,8 @@ export {
   Chart,
   Table,
   Embed,
-  TProvider
+  TProvider,
+  PageMainContent,
+  DataProvider,
+  useDataStore,
 };

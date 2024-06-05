@@ -1,0 +1,22 @@
+{
+  "name": "parcel-optimizer-client",
+  "version": "1.0.0",
+  "description": "parcel optimizer",
+  "main": "index.js",
+  "type": "commonjs",
+  "engines": {
+    "parcel": "2.x"
+  },
+  "peerDependencies": {
+    "@parcel/config-default": "^2.9.0",
+    "@parcel/core": "^2.9.0",
+    "@parcel/packager-ts": "^2.9.0",
+    "@parcel/plugin": "^2.9.0",
+    "@parcel/source-map": "^2.1.1",
+    "@parcel/transformer-typescript-types": "^2.9.0",
+    "@swc/helpers": "^0.4.2",
+    "@parcel/utils": "^2.9.0",
+    "parcel": "^2.9.0",
+    "parcel-transformer-tsc-sourcemaps": "^1.0.2"
+  }
+}
