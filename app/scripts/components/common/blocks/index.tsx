@@ -264,68 +264,68 @@ export function BlockComponent(props: BlockComponentProps) {
     ]);
   }
 
-  if (!matchingBlocks[`${typeName}${childrenNames}`]) {
-    let hints = [
-      'The only direct children that blocks can have are Figure and Prose.',
-      'Example:',
-      <pre key='block-1'>
-        {`<Block>
-  <Figure><Image/></Figure>
-  <Prose>
-    This is some text.
-  </Prose>
-</Block>
-`}
-      </pre>
-    ];
+//   if (!matchingBlocks[`${typeName}${childrenNames}`]) {
+//     let hints = [
+//       'The only direct children that blocks can have are Figure and Prose.',
+//       'Example:',
+//       <pre key='block-1'>
+//         {`<Block>
+//   <Figure><Image/></Figure>
+//   <Prose>
+//     This is some text.
+//   </Prose>
+// </Block>
+// `}
+//       </pre>
+//     ];
 
-    if (childrenComponents.filter((e) => e == 'Figure').length > 1) {
-      hints = [
-        ...hints,
-        'Block cannot have more than one Figure. Try to wrap Figures with Blocks.',
-        'Before:',
-        <pre key='block-1'>
-          {`<Block>
-  <Figure><Image/></Figure>
-  <Figure><Image/></Figure>
-</Block>
-`}
-        </pre>,
-        'After:',
-        <pre key='block-2'>
-          {`<Block>
-  <Figure><Image/></Figure>
-</Block>
-<Block>
-  <Figure><Image/></Figure>
-</Block>
-`}
-        </pre>,
-        '--',
-        'If you want your image to be inline, you can drop the Figure and use the images inside a Prose.',
-        'Before:',
-        <pre key='block-3'>
-          {`<Block>
-  <Figure><Image/></Figure>
-  <Figure><Image/></Figure>
-</Block>
-`}
-        </pre>,
-        'After:',
-        <pre key='block-4'>
-          {`<Block>
-  <Prose>
-    <Image/>
-    Some more text...
-  </Prose>
-</Block>
-`}
-        </pre>
-      ];
-    }
+//     if (childrenComponents.filter((e) => e == 'Figure').length > 1) {
+//       hints = [
+//         ...hints,
+//         'Block cannot have more than one Figure. Try to wrap Figures with Blocks.',
+//         'Before:',
+//         <pre key='block-1'>
+//           {`<Block>
+//   <Figure><Image/></Figure>
+//   <Figure><Image/></Figure>
+// </Block>
+// `}
+//         </pre>,
+//         'After:',
+//         <pre key='block-2'>
+//           {`<Block>
+//   <Figure><Image/></Figure>
+// </Block>
+// <Block>
+//   <Figure><Image/></Figure>
+// </Block>
+// `}
+//         </pre>,
+//         '--',
+//         'If you want your image to be inline, you can drop the Figure and use the images inside a Prose.',
+//         'Before:',
+//         <pre key='block-3'>
+//           {`<Block>
+//   <Figure><Image/></Figure>
+//   <Figure><Image/></Figure>
+// </Block>
+// `}
+//         </pre>,
+//         'After:',
+//         <pre key='block-4'>
+//           {`<Block>
+//   <Prose>
+//     <Image/>
+//     Some more text...
+//   </Prose>
+// </Block>
+// `}
+//         </pre>
+//       ];
+//     }
 
-    throw new HintedError(contentTypeErrorMessage, hints);
-  }
+//     throw new HintedError(contentTypeErrorMessage, hints);
+//   }
 
   return createElement(matchingBlocks[`${typeName}${childrenNames}`], props);
 }
