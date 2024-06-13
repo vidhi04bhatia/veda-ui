@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import { endOfYear, format, startOfYear } from 'date-fns';
 import { scaleTime, ScaleTime } from 'd3';
 
+
 import { glsp, themeVal } from '@devseed-ui/theme-provider';
 import {
   CollecticonChevronDownSmall
@@ -23,6 +24,7 @@ import { CollecticonCalendarMinus } from '$components/common/icons/calendar-minu
 import { CollecticonCalendarPlus } from '$components/common/icons/calendar-plus';
 import { TipButton, TipToolbarIconButton } from '$components/common/tip-button';
 import useAois from '$components/common/map/controls/hooks/use-aois';
+import USWDSDatePicker from '$components/common/date-picker';
 
 const TimelineControlsSelf = styled.div`
   width: 100%;
@@ -77,7 +79,7 @@ export function TimelineDateAxis(props: Omit<TimelineControlsProps, "onZoom">) {
   const initialScale = useMemo(() => {
     return getInitialScale(width);
   }, [width]);
-  
+
   return (
     <TimelineControlsSelf>
       <EmptyDateAxisWrapper>
@@ -105,29 +107,14 @@ export function TimelineControls(props: TimelineControlsProps) {
       <ControlsToolbar>
         <Toolbar>
           <ToolbarGroup>
-            <DatePicker
+            <USWDSDatePicker
               id='date-picker-a'
-              value={{ start: selectedDay, end: selectedDay }}
-              onConfirm={(d) => {
-                setSelectedDay(d.start!);
-              }}
-              renderTriggerElement={(props, label) => (
-                <DatePickerButton
-                  {...props}
-                  size='small'
-                  disabled={!xScaled}
-                  data-tour='date-picker-a'
-                  tipContent={
-                    selectedCompareDay
-                      ? 'Date shown on left map '
-                      : 'Date shown on map'
-                  }
-                >
-                  <span className='head-reference'>A</span>
-                  <span>{label}</span>
-                  <CollecticonChevronDownSmall />
-                </DatePickerButton>
-              )}
+              value={selectedInterval}
+              onChange={({start, end}) => setSelectedInterval({ start, end })}
+              aria-label='Select Date Range'
+              size='small'
+              disabled={!xScaled}
+              data-tour='analysis-toolbar'
             />
             <VerticalDivider />
             {selectedCompareDay ? (
