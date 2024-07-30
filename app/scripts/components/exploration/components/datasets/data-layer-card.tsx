@@ -136,7 +136,9 @@ export default function DataLayerCard(props: CardProps) {
                 size='small'
                 fitting='skinny'
                 onPointerDownCapture={(e) => e.stopPropagation()}
-                onClick={() => setVisible((v) => !v)}
+                onClick={() => setVisible((v) => {
+                  return !v;
+                })}
               >
                 {isVisible ? (
                   <CollecticonEye

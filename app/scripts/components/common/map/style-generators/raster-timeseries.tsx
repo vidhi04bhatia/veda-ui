@@ -284,7 +284,7 @@ export function RasterTimeseries(props: RasterTimeseriesProps) {
         /* eslint-disable no-console */
         LOG &&
           console.groupCollapsed(
-            'RasterTimeseries %cAdding Mosaic',
+            'RasterTimeseries %c  ',
             'color: green;',
             id
           );
