@@ -64,7 +64,6 @@ export interface RasterTimeseriesProps extends StacTimeseriesProps {
   isPositionSet?: boolean;
 }
 
-<<<<<<< HEAD
 interface AssetUrlReplacement {
   from: string;
   to: string;
@@ -73,5 +72,3 @@ interface AssetUrlReplacement {
 export interface CMRTimeseriesProps extends BaseTimeseriesProps {
   assetUrlReplacements?: AssetUrlReplacement;
 }
-=======
->>>>>>> 74681a0e (Use titiler-cmr in place of cmr-stac + titiler-xarray)
