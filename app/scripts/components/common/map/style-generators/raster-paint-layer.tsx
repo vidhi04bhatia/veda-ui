@@ -68,8 +68,7 @@ export function RasterPaintLayer(props: RasterPaintLayerProps) {
         },
         minzoom: minZoom,
         metadata: {
-          layerOrderPosition: 'raster',
-          colorMapVersion: colorMap,
+          layerOrderPosition: 'raster'
         }
       };
 
