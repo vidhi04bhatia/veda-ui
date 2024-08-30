@@ -51,15 +51,9 @@ export function RasterPaintLayer(props: RasterPaintLayerProps) {
     () => {
       // in the case of titiler-cmr, there is no asset url. The asset urls are determined internally by titiler-cmr.
       const tileParams = qs.stringify({
-<<<<<<< HEAD
         url: assetUrl,
         time_slice: date,
         ...updatedSourceParams,
-=======
-        ...(assetUrl && { url: assetUrl }), // Only include `url` if `assetUrl` is truthy (not null or undefined)
-        datetime: date,
-        ...sourceParams
->>>>>>> 74681a0e (Use titiler-cmr in place of cmr-stac + titiler-xarray)
       });
 
       const zarrSource: RasterSource = {
