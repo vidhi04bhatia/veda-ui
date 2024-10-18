@@ -1,4 +1,10 @@
-import React, { ReactNode, useContext, useCallback, useEffect } from 'react';
+import React, {
+  ReactNode,
+  useContext,
+  useCallback,
+  useEffect,
+  useState
+} from 'react';
 import { useDeepCompareEffect } from 'use-deep-compare';
 import styled from 'styled-components';
 import { Outlet } from 'react-router';
@@ -8,6 +14,7 @@ import MetaTags from '../meta-tags';
 import PageFooter from '../page-footer';
 import Banner from '../banner';
 import { CookieConsent } from '../cookie-consent';
+import { SESSION_KEY } from '../cookie-consent/utils';
 
 import { LayoutRootContext } from './context';
 
@@ -44,10 +51,11 @@ function LayoutRoot(props: { children?: ReactNode }) {
   const cookieConsentContent = getCookieConsentFromVedaConfig();
 
   const { children } = props;
-
+  const [sessionStart, setSesstionStart] = useState<string | undefined>();
+  const sessionItem = window.sessionStorage.getItem(SESSION_KEY);
   useEffect(() => {
-    // window.sessionStorage.setItem("sessionStart", "true");
     !cookieConsentContent && setGoogleTagManager();
+    sessionItem && setSesstionStart(sessionItem);
   }, []);
 
   const { title, thumbnail, description, banner, hideFooter } =
@@ -73,9 +81,10 @@ function LayoutRoot(props: { children?: ReactNode }) {
       <PageBody id={PAGE_BODY_ID} tabIndex={-1}>
         <Outlet />
         {children}
-        {cookieConsentContent && (
+        {cookieConsentContent && !sessionStart && (
           <CookieConsent
             {...cookieConsentContent}
+            sessionStart={sessionStart}
             setGoogleTagManager={setGoogleTagManager}
           />
         )}
