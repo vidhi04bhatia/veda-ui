@@ -62,7 +62,10 @@ export default function SiteAlert({
               type !== infoTypeFlag ? 'bg-secondary-lighter' : ''
             }`}
           >
-            <div dangerouslySetInnerHTML={{ __html: decode(content) }} />
+            <div
+              className='usa-alert__text'
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
           </USWDSSiteAlert>
           <div className='position-absolute top-0 right-0 margin-right-3 height-full display-flex'>
             <button
