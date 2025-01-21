@@ -122,3 +122,11 @@ icon.svg
 meta-image.png
 site.webmanifest
 ```
+
+## Wordpress files
+
+wordpress local admin site: http://localhost:8080/wp-login
+wordpress username: WP_veda_demo
+password: WP_veda_demo
+
+To run docker: `docker compose up`
