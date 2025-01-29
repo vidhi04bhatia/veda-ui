@@ -35,7 +35,6 @@
     "test:e2e": "yarn playwright test",
     "release": "release-it --",
     "wordpress": "wp-env start"
-
   },
   "targets": {
     "veda-app": {
