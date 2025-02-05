@@ -1,0 +1,463 @@
+# Copyright (C) 2024 BlockskitDev
+# This file is distributed under the GPLv3 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Blockskit Marketing 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/blockskit-marketing\n"
+"POT-Creation-Date: 2024-10-07 07:25:54+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: functions.php:48
+msgid "Blockskit Marketing Patterns"
+msgstr ""
+
+#: patterns/callback.php:18
+msgid "Have A Project for Us? Let's "
+msgstr ""
+
+#: patterns/callback.php:18
+msgid "Get Started "
+msgstr ""
+
+#: patterns/callback.php:18
+msgid " Now !"
+msgstr ""
+
+#: patterns/callback.php:24
+msgid "HIRE US NOW"
+msgstr ""
+
+#: patterns/callback.php:30 patterns/hero-banner.php:47
+msgid "LEARN MORE"
+msgstr ""
+
+#: patterns/footer.php:20
+msgid "Nisl libero ullamcorper id ipsum viverra mauris non pellentesque placerat lorem lacinia sagittis non pretium."
+msgstr ""
+
+#: patterns/footer.php:38
+msgid "Products"
+msgstr ""
+
+#: patterns/footer.php:42
+msgid "Portfolio List"
+msgstr ""
+
+#: patterns/footer.php:43
+msgid "Plans & Pricing"
+msgstr ""
+
+#: patterns/footer.php:44 patterns/header.php:28
+msgid "Services"
+msgstr ""
+
+#: patterns/footer.php:45
+msgid "Partners"
+msgstr ""
+
+#: patterns/footer.php:52
+msgid "Company"
+msgstr ""
+
+#: patterns/footer.php:56
+msgid "About us"
+msgstr ""
+
+#: patterns/footer.php:57
+msgid "Our News"
+msgstr ""
+
+#: patterns/footer.php:58
+msgid "Contact Us"
+msgstr ""
+
+#: patterns/footer.php:59
+msgid "Meet Our Team"
+msgstr ""
+
+#: patterns/footer.php:70
+msgid "Resources"
+msgstr ""
+
+#: patterns/footer.php:74
+msgid "Gallery"
+msgstr ""
+
+#: patterns/footer.php:75
+msgid "Blog Articles"
+msgstr ""
+
+#: patterns/footer.php:76
+msgid "Brand Assets"
+msgstr ""
+
+#: patterns/footer.php:77
+msgid "Brand Guidelines"
+msgstr ""
+
+#: patterns/footer.php:84
+msgid "Support"
+msgstr ""
+
+#: patterns/footer.php:88
+msgid "Knowledge Base"
+msgstr ""
+
+#: patterns/footer.php:89
+msgid "Privacy Policy"
+msgstr ""
+
+#: patterns/footer.php:90
+msgid "Contact Support"
+msgstr ""
+
+#: patterns/footer.php:91
+msgid "TOS"
+msgstr ""
+
+#: patterns/footer.php:101
+msgid "Copyright © 2024 ·"
+msgstr ""
+
+#: patterns/footer.php:107
+msgid "· All rights reserved"
+msgstr ""
+
+#: patterns/header.php:26
+msgid "Home"
+msgstr ""
+
+#: patterns/header.php:27
+msgid "About Us"
+msgstr ""
+
+#: patterns/header.php:29
+msgid "Reviews"
+msgstr ""
+
+#: patterns/header.php:30
+msgid "Blog"
+msgstr ""
+
+#: patterns/header.php:31
+msgid "Contact"
+msgstr ""
+
+#: patterns/header.php:36
+msgid "GET A QUOTE"
+msgstr ""
+
+#: patterns/hero-banner.php:31
+msgid "Best Solution "
+msgstr ""
+
+#: patterns/hero-banner.php:31
+msgid "Marketing"
+msgstr ""
+
+#: patterns/hero-banner.php:31
+msgid "Firm."
+msgstr ""
+
+#: patterns/hero-banner.php:35
+msgid "Mauris elementum eu lorem placerat pede, maecenas perspiciatis fames. Commodo vel pharetra ullamcorper, sociis porro quam deleniti. Corrupti illum aliquid veritatis egestas, ipsa loream."
+msgstr ""
+
+#: patterns/hero-banner.php:41
+msgid "GET STARTED"
+msgstr ""
+
+#: patterns/pricing.php:19
+msgid "Why We Are Best Among Others ?"
+msgstr ""
+
+#: patterns/pricing.php:20 patterns/pricing.php:28 patterns/pricing.php:36
+msgid "Curabitur rutrum volutpat qui cillum wisi habitasse molestiae dignissimos varius, senectus natoque gravida, potenti, ins."
+msgstr ""
+
+#: patterns/pricing.php:35
+msgid "We Guarantee Success With Our Project."
+msgstr ""
+
+#: patterns/pricing.php:44
+msgid "Quality &amp; "
+msgstr ""
+
+#: patterns/pricing.php:44
+msgid "Affordable Pricing"
+msgstr ""
+
+#: patterns/pricing.php:44
+msgid " To Startup."
+msgstr ""
+
+#: patterns/pricing.php:48
+msgid "Curabitur rutrum volutpat qui cillum wisi habitasse molestiae dignissimos varius, senectus natoque gravida, potenti, repudiandae."
+msgstr ""
+
+#: patterns/pricing.php:61
+msgid "25+"
+msgstr ""
+
+#: patterns/pricing.php:65
+msgid "YEARS OF EXPERIENCE"
+msgstr ""
+
+#: patterns/pricing.php:70
+msgid "Eaque curae suspendisse esse vivamus do, proin nullam urna"
+msgstr ""
+
+#: patterns/pricing.php:81
+msgid "AVAILABLE 7 DAYS"
+msgstr ""
+
+#: patterns/pricing.php:85
+msgid "Free"
+msgstr ""
+
+#: patterns/pricing.php:89
+msgid "Starter Plan"
+msgstr ""
+
+#: patterns/pricing.php:94 patterns/pricing.php:138 patterns/pricing.php:174
+msgid "Accusamus nec voluptatibus."
+msgstr ""
+
+#: patterns/pricing.php:98 patterns/pricing.php:142 patterns/pricing.php:178
+msgid "Molestie ante, lobortis."
+msgstr ""
+
+#: patterns/pricing.php:102 patterns/pricing.php:146 patterns/pricing.php:182
+msgid "Tenetur cupidatat similique."
+msgstr ""
+
+#: patterns/pricing.php:108 patterns/pricing.php:152 patterns/pricing.php:188
+msgid "CHOOSE A PLAN"
+msgstr ""
+
+#: patterns/pricing.php:118
+msgid "EARLY PLAN"
+msgstr ""
+
+#: patterns/pricing.php:123
+msgid "MOST POPULAR"
+msgstr ""
+
+#: patterns/pricing.php:129
+msgid "$48.99"
+msgstr ""
+
+#: patterns/pricing.php:133
+msgid "Ultra Plan"
+msgstr ""
+
+#: patterns/pricing.php:161
+msgid "MONTHLY PLAN"
+msgstr ""
+
+#: patterns/pricing.php:165
+msgid "$95.22"
+msgstr ""
+
+#: patterns/pricing.php:169
+msgid "Premium Plan"
+msgstr ""
+
+#: patterns/service.php:20
+msgid "Providing "
+msgstr ""
+
+#: patterns/service.php:20
+msgid "Best Services"
+msgstr ""
+
+#: patterns/service.php:20
+msgid " To Clients"
+msgstr ""
+
+#: patterns/service.php:26
+msgid "Convallis maecenas ridiculus ipsa, init dapibus mi! Iusto numquam per, secdignissim. Diam hic, etiam ultricies, rerum expedita nobis consectetur."
+msgstr ""
+
+#: patterns/service.php:33
+msgid "MORE SERVICES"
+msgstr ""
+
+#: patterns/service.php:45
+msgid "01"
+msgstr ""
+
+#: patterns/service.php:50
+msgid "Digital Market Analysis"
+msgstr ""
+
+#: patterns/service.php:59 patterns/service.php:89 patterns/service.php:119
+#: patterns/service.php:149
+msgid "Minus sem labore eleifend porro per temporibus consequat reiciendis."
+msgstr ""
+
+#: patterns/service.php:64 patterns/service.php:94 patterns/service.php:124
+#: patterns/service.php:154
+msgid "LEARN MORE.."
+msgstr ""
+
+#: patterns/service.php:75
+msgid "02"
+msgstr ""
+
+#: patterns/service.php:80
+msgid "Networking Support"
+msgstr ""
+
+#: patterns/service.php:105
+msgid "03"
+msgstr ""
+
+#: patterns/service.php:110
+msgid "Business Management"
+msgstr ""
+
+#: patterns/service.php:135
+msgid "04"
+msgstr ""
+
+#: patterns/service.php:140
+msgid "Work Financial Advisor"
+msgstr ""
+
+#: patterns/template-404.php:24
+msgid "This page could not be found. Maybe try a search?"
+msgstr ""
+
+#: patterns/template-cart.php:27 patterns/template-cart.php:90
+#: patterns/template-cart.php:153
+msgid "You may be interested in…"
+msgstr ""
+
+#: patterns/template-cart.php:209
+msgid "Your cart is currently empty!"
+msgstr ""
+
+#: patterns/template-cart.php:213
+msgid "Browse store"
+msgstr ""
+
+#: patterns/template-cart.php:221
+msgid "New in store"
+msgstr ""
+
+#: patterns/template-order-confirmation.php:22
+msgid "Order Confirmation"
+msgstr ""
+
+#: patterns/template-order-confirmation.php:40
+msgid "Order details"
+msgstr ""
+
+#: patterns/template-order-confirmation.php:48
+msgid "Downloads"
+msgstr ""
+
+#: patterns/template-order-confirmation.php:58
+msgid "Shipping address"
+msgstr ""
+
+#: patterns/template-order-confirmation.php:68
+msgid "Billing address"
+msgstr ""
+
+#: patterns/template-product-search-results.php:49
+msgid "No products were found matching your selection."
+msgstr ""
+
+#: patterns/template-search.php:51
+msgid "Sorry, but nothing matched your search terms. Try another search?"
+msgstr ""
+
+#: patterns/template-single-product.php:58
+msgid "Related products"
+msgstr ""
+
+#: patterns/testimonial.php:21
+msgid "Checkout Our "
+msgstr ""
+
+#: patterns/testimonial.php:21
+msgid "Happy Client's"
+msgstr ""
+
+#: patterns/testimonial.php:21
+msgid " Reviews"
+msgstr ""
+
+#: patterns/testimonial.php:25
+msgid "Blandit dolor, congue tempus fusce voluptatibus, quibusdam conubia est luctus ultrices mollis lobortis nemo, ullamco consequuntur fringilla suspendisse nostrum, inventore."
+msgstr ""
+
+#: patterns/testimonial.php:31
+msgid "MORE REVIEWS"
+msgstr ""
+
+#: patterns/testimonial.php:38
+msgid "4.8"
+msgstr ""
+
+#: patterns/testimonial.php:42
+msgid "Positive Ratings By Our Genuine Clients"
+msgstr ""
+
+#: patterns/testimonial.php:52 patterns/testimonial.php:114
+msgid "Molestie asperiores, repellat, porro autem cillum magna. Et augue dicta eleifend laoreet atque nostrum sapien incidunt! Necessitatibus voluptate, nullam. Impedit suspendisse quos! Aspernatur rerum odio eius."
+msgstr ""
+
+#: patterns/testimonial.php:60
+msgid "William Holland"
+msgstr ""
+
+#: patterns/testimonial.php:64
+msgid "Supervisor, Clients"
+msgstr ""
+
+#: patterns/testimonial.php:84
+msgid "Molestie asperiores, repellat, porro autem cillum magna. Et augue dicta eleifend laoreet atque nostrum sapien incidunt! Necessitatibus voluptate, nullam. Impedit suspendisse quos."
+msgstr ""
+
+#: patterns/testimonial.php:92
+msgid "Julian Stacy"
+msgstr ""
+
+#: patterns/testimonial.php:96
+msgid "Advisor, Clients"
+msgstr ""
+
+#: patterns/testimonial.php:122
+msgid "Mikel Howard"
+msgstr ""
+
+#: patterns/testimonial.php:126
+msgid "Counseler, Clients"
+msgstr ""
+#. Theme Name of the plugin/theme
+msgid "Blockskit Marketing"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "https://blockskit.com/blockskit-marketing/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Blockskit Marketing is a modern and versatile WordPress theme designed for various types of websites including advertising, agency, blog, business, corporate, creative, design, finance, investments, management, marketing, portfolio, smm, startup, web design and more. It offers full-site-editing, allowing easy customization of all aspects of your site. With multiple templates, patterns, and style variations, it's suitable for different aesthetics. The theme is also compatible with popular plugins like Elementor, WooCommerce, and Spectra – WordPress Gutenberg Blocks, adding extra functionality to your site."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "BlockskitDev"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://blockskit.com"
+msgstr ""
