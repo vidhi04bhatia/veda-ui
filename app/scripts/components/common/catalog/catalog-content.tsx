@@ -3,25 +3,36 @@ import styled from 'styled-components';
 import { glsp, themeVal } from '@devseed-ui/theme-provider';
 import TextHighlight from '../text-highlight';
 import { CollecticonDatasetLayers } from '../icons/dataset-layers';
+import { USWDSCardGroup } from '../uswds';
+import { Card, CardType } from '../card';
+import { Tags } from '../tags';
 import { prepareDatasets } from './prepare-datasets';
 import FiltersControl from './filters-control';
 import { CatalogCard } from './catalog-card';
 import CatalogTagsContainer from './catalog-tags';
 
-import { FilterActions } from './utils';
-import { DatasetData, DatasetDataWithEnhancedLayers } from '$types/veda';
+import {
+  FilterActions,
+  getDatasetDescription,
+  getMediaProperty
+} from './utils';
+import { DatasetData } from '$types/veda';
 import { CardList } from '$components/common/card/styles';
 import EmptyHub from '$components/common/empty-hub';
 import {
   getTaxonomyByIds,
   generateTaxonomies,
   getTaxonomy,
-  TAXONOMY_SOURCE
+  TAXONOMY_SOURCE,
+  getAllTaxonomyValues
 } from '$utils/veda-data/taxonomies';
 import { OptionItem } from '$components/common/form/checkable-filter';
 import { Pill } from '$styles/pill';
 import { usePreviousValue } from '$utils/use-effect-previous';
-import { getParentDataset } from '$components/exploration/data-utils-no-faux-module';
+import Pagination from '$components/common/pagination';
+import { useVedaUI } from '$context/veda-ui-provider';
+import { findParentDatasetFromLayer } from '$utils/data-utils';
+import { legacyGlobalStyleCSSBlock } from '$styles/legacy-global-styles';
 
 const EXCLUSIVE_SOURCE_WARNING =
   'Can only be analyzed with layers from the same source';
@@ -35,31 +46,11 @@ export interface CatalogContentProps {
   search: string;
   taxonomies: Record<string, string[]>;
   onAction: (action: FilterActions, value?: any) => void;
+  itemsPerPage?: number;
 }
 
 const DEFAULT_SORT_OPTION = 'asc';
 const DEFAULT_SORT_FIELD = 'name';
-
-export const findParentDataset = (layerId: string, datasets) => {
-  const parentDataset: DatasetData | undefined = Object.values(datasets).find(
-    (dataset: DatasetData) => dataset?.layers.find((l) => l.id === layerId)
-  ) as DatasetData | undefined;
-  return parentDataset;
-};
-
-function enhanceDatasetLayers(dataset) {
-  return {
-    ...dataset,
-    layers: dataset.layers.map((layer) => ({
-      ...layer,
-      parentDataset: getParentDataset(dataset)
-    }))
-  };
-}
-
-export const getAllDatasetsWithEnhancedLayers = (
-  dataset
-): DatasetDataWithEnhancedLayers[] => dataset.map(enhanceDatasetLayers);
 
 function CatalogContent({
   datasets,
@@ -69,13 +60,19 @@ function CatalogContent({
   emptyStateContent,
   search,
   taxonomies,
-  onAction
+  onAction,
+  itemsPerPage = 7
 }: CatalogContentProps) {
   const [exclusiveSourceSelected, setExclusiveSourceSelected] = useState<
     string | null
   >(null);
-  const isSelectable = selectedIds !== undefined;
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const isSelectable = selectedIds !== undefined;
+  const {
+    routes: { dataCatalogPath }
+  } = useVedaUI();
   const datasetTaxonomies = generateTaxonomies(datasets);
   const urlTaxonomyItems = taxonomies
     ? Object.entries(taxonomies)
@@ -83,13 +80,8 @@ function CatalogContent({
         .flat()
     : [];
 
-  const allDatasetsWithEnhancedLayers = useMemo(
-    () => getAllDatasetsWithEnhancedLayers(datasets),
-    [datasets]
-  );
-
   const [datasetsToDisplay, setDatasetsToDisplay] = useState<DatasetData[]>(
-    prepareDatasets(allDatasetsWithEnhancedLayers, {
+    prepareDatasets(datasets, {
       search,
       taxonomies,
       sortField: DEFAULT_SORT_FIELD,
@@ -185,7 +177,10 @@ function CatalogContent({
 
       const getSelectedIdsWithParentData = (selectedIds) => {
         return selectedIds.map((selectedId: string) => {
-          const parentData = findParentDataset(selectedId, datasets);
+          const parentData = findParentDatasetFromLayer({
+            layerId: selectedId,
+            datasets
+          });
           const exclusiveSource = parentData?.sourceExclusive;
           const parentDataSourceValues = parentData?.taxonomy
             .filter((x) => x.name === 'Source')[0]
@@ -241,8 +236,40 @@ function CatalogContent({
     [selectedIds, setSelectedIds, exclusiveSourceSelected, datasets]
   );
 
+  const generateCardsWithRoute = useMemo(
+    () => (
+      <USWDSCardGroup style={{ gap: '40px' }}>
+        {datasetsToDisplay
+          .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+          .map((d) => {
+            const imgSrc = getMediaProperty(undefined, d, 'src');
+            const imgAlt = getMediaProperty(undefined, d, 'alt');
+            const description = getDatasetDescription(undefined, d);
+            const allTaxonomyValues = getAllTaxonomyValues(d).map(
+              (v) => v.name
+            );
+
+            return (
+              <Card
+                cardType={CardType.FLAG}
+                key={d.id}
+                imgSrc={imgSrc}
+                imgAlt={imgAlt}
+                title={d.name}
+                description={description}
+                footerContent={<Tags items={allTaxonomyValues} />}
+                to={`${dataCatalogPath}/${d.id}`}
+                cardLabel='data_collection'
+              />
+            );
+          })}
+      </USWDSCardGroup>
+    ),
+    [currentPage, itemsPerPage, datasetsToDisplay, dataCatalogPath]
+  );
+
   useEffect(() => {
-    const updated = prepareDatasets(allDatasetsWithEnhancedLayers, {
+    const updated = prepareDatasets(datasets, {
       search,
       taxonomies,
       sortField: DEFAULT_SORT_FIELD,
@@ -257,6 +284,8 @@ function CatalogContent({
     return dataset.layers.filter((layer) => selectedIds?.includes(layer.id))
       .length;
   };
+
+  const totalPages = Math.ceil(datasetsToDisplay.length / itemsPerPage);
 
   return (
     <Content>
@@ -280,65 +309,74 @@ function CatalogContent({
           handleClearTags={handleClearTags}
         />
         {datasetsToDisplay.length ? (
-          isSelectable ? (
-            <Cards>
-              {datasetsToDisplay.map((currentDataset) => (
-                <div key={currentDataset.id}>
-                  <div>
-                    <Headline>
-                      <ParentDatasetTitle>
-                        <CollecticonDatasetLayers /> {currentDataset.name}
-                        {getSelectedLayerCount(currentDataset) > 0 && (
-                          <SelectedCard>
-                            <span>
-                              {getSelectedLayerCount(currentDataset)} selected
-                            </span>
-                          </SelectedCard>
-                        )}
-                      </ParentDatasetTitle>
-                      {currentDataset.sourceExclusive && (
-                        <WarningPill variation='warning'>
-                          {EXCLUSIVE_SOURCE_WARNING}
-                        </WarningPill>
-                      )}
-                    </Headline>
-                    <Paragraph>
-                      <TextHighlight
-                        value={search}
-                        disabled={search.length < 3}
-                      >
-                        {currentDataset.description}
-                      </TextHighlight>
-                    </Paragraph>
-                  </div>
-                  <Cards>
-                    {currentDataset.layers.map((datasetLayer) => (
-                      <li key={datasetLayer.id}>
-                        <CatalogCard
-                          searchTerm={search}
-                          layer={datasetLayer}
-                          dataset={currentDataset}
-                          selectable={true}
-                          selected={selectedIds.includes(datasetLayer.id)}
-                          onDatasetClick={() => {
-                            onCardSelect(datasetLayer.id, currentDataset);
-                          }}
-                        />
-                      </li>
-                    ))}
-                  </Cards>
-                </div>
-              ))}
-            </Cards>
-          ) : (
-            <Cards>
-              {datasetsToDisplay.map((d) => (
-                <li key={d.id}>
-                  <CatalogCard dataset={d} searchTerm={search} />
-                </li>
-              ))}
-            </Cards>
-          )
+          <>
+            {isSelectable ? (
+              <Cards>
+                {datasetsToDisplay
+                  .slice(
+                    (currentPage - 1) * itemsPerPage,
+                    currentPage * itemsPerPage
+                  )
+                  .map((currentDataset) => (
+                    <div key={currentDataset.id}>
+                      <div>
+                        <Headline>
+                          <ParentDatasetTitle>
+                            <CollecticonDatasetLayers /> {currentDataset.name}
+                            {getSelectedLayerCount(currentDataset) > 0 && (
+                              <SelectedCard>
+                                <span>
+                                  {getSelectedLayerCount(currentDataset)}{' '}
+                                  selected
+                                </span>
+                              </SelectedCard>
+                            )}
+                          </ParentDatasetTitle>
+                          {currentDataset.sourceExclusive && (
+                            <WarningPill variation='warning'>
+                              {EXCLUSIVE_SOURCE_WARNING}
+                            </WarningPill>
+                          )}
+                        </Headline>
+                        <Paragraph>
+                          <TextHighlight
+                            value={search}
+                            disabled={search.length < 3}
+                          >
+                            {currentDataset.description}
+                          </TextHighlight>
+                        </Paragraph>
+                      </div>
+                      <Cards>
+                        {currentDataset.layers.map((datasetLayer) => (
+                          <li key={datasetLayer.id}>
+                            <CatalogCard
+                              searchTerm={search}
+                              layer={datasetLayer}
+                              dataset={currentDataset}
+                              selectable={true}
+                              selected={selectedIds.includes(datasetLayer.id)}
+                              onDatasetClick={() => {
+                                onCardSelect(datasetLayer.id, currentDataset);
+                              }}
+                            />
+                          </li>
+                        ))}
+                      </Cards>
+                    </div>
+                  ))}
+              </Cards>
+            ) : (
+              generateCardsWithRoute
+            )}
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                totalPages={totalPages}
+              />
+            )}
+          </>
         ) : (
           <EmptyState>
             {emptyStateContent ?? (
@@ -394,6 +432,9 @@ const Content = styled.div`
   margin-bottom: 8rem;
   position: relative;
   gap: 24px;
+  * {
+    ${legacyGlobalStyleCSSBlock}
+  }
 `;
 
 const Catalog = styled.div`

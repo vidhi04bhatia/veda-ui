@@ -4,55 +4,21 @@ import eachYearOfInterval from 'date-fns/eachYearOfInterval';
 import startOfDay from 'date-fns/startOfDay';
 import startOfMonth from 'date-fns/startOfMonth';
 import startOfYear from 'date-fns/startOfYear';
+import { RENDER_KEY } from '$components/exploration/constants';
 import {
-  EnhancedDatasetLayer,
+  DataMetric,
+  DATA_METRICS,
+  DEFAULT_DATA_METRICS
+} from '$components/exploration/components/datasets/analysis-metrics';
+import {
   TimelineDataset,
   DatasetStatus,
   StacDatasetData,
   TimeDensity,
   TimelineDatasetSuccess
-} from './types.d.ts';
-import {
-  DataMetric,
-  DATA_METRICS,
-  DEFAULT_DATA_METRICS
-} from './components/datasets/analysis-metrics';
+} from '$components/exploration/types.d.ts';
 import { utcString2userTzDate } from '$utils/date';
-import {
-  DatasetLayer,
-  VedaData,
-  VedaDatum,
-  DatasetData,
-  DatasetLayerType,
-  ParentDatset
-} from '$types/veda';
-
-export function getParentDataset(data: DatasetData): ParentDatset {
-  return {
-    id: data.id,
-    name: data.name,
-    infoDescription: data.infoDescription
-  };
-}
-
-// @NOTE: All fns from './date-utils` should eventually move here to get rid of their faux modules dependencies
-// `./date-utils` to be deprecated!!
-
-export const getDatasetLayers = (datasets: VedaData<DatasetData>) =>
-  Object.values(datasets).flatMap((dataset: VedaDatum<DatasetData>) => {
-    return dataset.data.layers.map((l) => ({
-      ...l,
-      parentDataset: getParentDataset(dataset.data)
-    }));
-  });
-
-export const getLayersFromDataset = (datasets: DatasetData[]) =>
-  Object.values(datasets).map((dataset: DatasetData) => {
-    return dataset.layers.map((l) => ({
-      ...l,
-      parentDataset: getParentDataset(dataset)
-    }));
-  });
+import { DatasetLayer, DatasetLayerType, SourceParameters } from '$types/veda';
 
 /**
  * Returns an array of metrics based on the given Dataset Layer configuration.
@@ -85,7 +51,7 @@ function getInitialColorMap(dataset: DatasetLayer): string | undefined {
 
 export function reconcileDatasets(
   ids: string[],
-  datasetsList: EnhancedDatasetLayer[],
+  datasetsList: DatasetLayer[],
   reconciledDatasets: TimelineDataset[]
 ): TimelineDataset[] {
   return ids.map((id) => {
@@ -155,10 +121,6 @@ export function resolveLayerTemporalExtent(
   }
 }
 
-const hasValidSourceParams = (params) => {
-  return params && 'colormap_name' in params && 'rescale' in params;
-};
-
 /**
  * Utility to check if render parameters are applicable based on dataset type.
  *
@@ -201,48 +163,45 @@ function flattenAndCalculateMinMax(rescale: number[]): [number, number] {
   return [min, max];
 }
 
-// renderParams precedence: Start with sourceParams from the dataset.
-// If it's not defined, check for the dashboard render configuration in queryData.
-// If still undefined, check for asset-specific renders using the sourceParams' assets
-// property.
+export function formatRenderExtensionData(renderData): SourceParameters {
+  return {
+    ...renderData,
+    ...(renderData.colormap && {
+      colormap: JSON.stringify(renderData.colormap)
+    }),
+    ...(renderData.rescale && {
+      rescale: flattenAndCalculateMinMax([renderData.rescale])
+    })
+  };
+}
+
+export type SourceParametersWithLayerId = SourceParameters & {
+  layerId: string;
+};
+// renderParams precedence
+// 1. Check if render extension has a layer specific namespace from render extension
+// 1-1. If so, return the layer specific render data
+// 2. Check if user-defined source parameters haave assets defined
+// 2-1. If so, return user defined source parameters
+// 3. Check if render extension has dashboard namespace
+// 3-1. If so, use the render Extension data
+// 4. return user defined source parameters (which can be an empty object)
 export function resolveRenderParams(
-  datasetSourceParams: Record<string, any> | undefined,
+  datasetSourceParams: SourceParametersWithLayerId,
   queryDataRenders: Record<string, any> | undefined
-): Record<string, any> | undefined {
-  // Return null if there are no user-configured sourcparams nor render parameter
-  // so it doesn't get subbed with default values
-  if (!datasetSourceParams && !queryDataRenders) return undefined;
-
-  // Start with sourceParams from the dataset.
-  // Return the source param as it is if exists
-  if (hasValidSourceParams(datasetSourceParams)) {
-    return datasetSourceParams;
-  }
-
-  // Check for the dashboard render configuration in queryData
-  if (!queryDataRenders)
-    throw new Error('No render parameter exists from stac endpoint.');
-
-  // Check the namespace from render extension
-  const renderKey = queryDataRenders.dashboard
-    ? 'dashboard'
-    : datasetSourceParams?.assets;
-  if (!queryDataRenders[renderKey])
-    throw new Error(
-      'No proper render parameter for dashboard namespace exists.'
-    );
-
-  // Return the render extension parameter
-  if (
-    queryDataRenders[renderKey] &&
-    hasValidSourceParams(queryDataRenders[renderKey])
-  ) {
-    const renderParams = queryDataRenders[renderKey];
-    return {
-      ...renderParams,
-      rescale: flattenAndCalculateMinMax([renderParams.rescale])
-    };
-  }
+): SourceParameters {
+  const { layerId, ...rest } = datasetSourceParams;
+  // 1. Check if render extension has a layer specific namespace from render extension
+  if (queryDataRenders && queryDataRenders[layerId])
+    return formatRenderExtensionData(queryDataRenders[layerId]);
+  // 2. (TO DEPRECATE Once all the assets specific source parameters are namespaced with render extension)
+  // Return user defined source parameters if there is one
+  if (datasetSourceParams?.assets) return rest;
+  // 3. Return dashboard namespace render extension data
+  if (queryDataRenders && queryDataRenders[RENDER_KEY])
+    return formatRenderExtensionData(queryDataRenders[RENDER_KEY]);
+  // 4. return user defined source params (which can be an empty object)
+  return rest;
 }
 
 export function getTimeDensityStartDate(date: Date, timeDensity: TimeDensity) {
@@ -290,16 +249,3 @@ export class ExtendedError extends Error {
     this.code = code;
   }
 }
-
-export const findDatasetAttribute = (
-  datasets,
-  {
-    datasetId,
-    attr
-  }: {
-    datasetId: string;
-    attr: string;
-  }
-) => {
-  return datasets[datasetId]?.data[attr];
-};

@@ -20,13 +20,13 @@ import {
   LayerCategoricalGraphic,
   LayerGradientColormapGraphic
 } from '$components/common/map/layer-legend';
-
+import useParentDataset from '$components/exploration/hooks/use-parent-data';
 import {
   TimelineDataset,
   colorMapScale
 } from '$components/exploration/types.d.ts';
 import { CollecticonDatasetLayers } from '$components/common/icons/dataset-layers';
-import { ParentDatasetTitle } from '$components/common/catalog/catalog-content';
+import { ParentDatasetTitle } from '$components/common/catalog/catalog-content-legacy';
 import { checkEnvFlag } from '$utils/utils';
 
 import 'tippy.js/dist/tippy.css';
@@ -142,6 +142,10 @@ export default function DataLayerCard(props: CardProps) {
     }
   };
 
+  const { parentDataset } = useParentDataset({
+    datasetId: dataset.data.parentDataset.id
+  });
+
   const showLoadingConfigurableCmapSkeleton =
     showConfigurableColorMap &&
     dataset.status === 'loading' &&
@@ -159,8 +163,7 @@ export default function DataLayerCard(props: CardProps) {
         <DatasetCardInfo>
           <Header>
             <ParentDatasetTitle size='small'>
-              <CollecticonDatasetLayers />{' '}
-              <p>{dataset.data.parentDataset.name}</p>
+              <CollecticonDatasetLayers /> <p>{parentDataset?.name}</p>
             </ParentDatasetTitle>
           </Header>
           <DatasetHeadline>

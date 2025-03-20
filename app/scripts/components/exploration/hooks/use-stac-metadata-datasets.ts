@@ -15,7 +15,7 @@ import {
   resolveLayerTemporalExtent,
   resolveRenderParams,
   isRenderParamsApplicable
-} from '../data-utils-no-faux-module';
+} from '$components/exploration/data-utils';
 import { useEffectPrevious } from '$utils/use-effect-previous';
 import { SetState } from '$types/aliases';
 
@@ -52,7 +52,7 @@ function reconcileQueryDataWithDataset(
 
       if (isRenderParamsApplicable(base.data.type)) {
         renderParams = resolveRenderParams(
-          base.data.sourceParams,
+          { ...base.data.sourceParams, layerId: base.data.id },
           queryData.data.renders
         );
       }

@@ -9,13 +9,21 @@ import {
   useLocation
 } from 'react-router-dom';
 
-import '$styles/styles.scss';
+if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  require('$styles/styles.scss');
+}
+
+import '$static/styles/theme.css';
+
+import '$styles/veda-styles.scss';
 
 import { userPages } from 'veda';
 import DevseedUiThemeProvider from './theme-provider';
 
 import { discoveryRoutes } from './redirects';
-import theme, { GlobalStyles } from '$styles/theme';
+import theme from '$styles/theme';
+import { GlobalStyles } from '$styles/legacy-global-styles';
 import { getAppURL } from '$utils/history';
 import LayoutRoot from '$components/common/layout-root';
 import { LayoutRootContextProvider } from '$components/common/layout-root/context';
